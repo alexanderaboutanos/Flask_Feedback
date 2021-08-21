@@ -44,6 +44,7 @@ def register():
                                  email=email, first_name=first_name, last_name=last_name)
         db.session.add(new_user)
         db.session.commit()
+        session['username'] = new_user.username
 
         return redirect('/secret')
     return render_template("register.html", form=form)
@@ -67,7 +68,7 @@ def login_user():
         user = User.authenticate(username, password)
         if user:
             flash(f"Welcome Back, {user.first_name}!", "primary")
-            # session['user_id'] = user.id
+            session['username'] = user.username
             return redirect('/secret')
         else:
             form.username.errors = ['Invalid username/password.']
@@ -78,4 +79,7 @@ def login_user():
 @app.route('/secret')
 def show_secret():
     """Return the text “You made it!”"""
-    return "YOU MADE IT!"
+    if 'username' not in session:
+        return redirect('/login')
+    else:
+        return "YOU MADE IT!"
