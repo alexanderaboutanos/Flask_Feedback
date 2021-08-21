@@ -50,8 +50,6 @@ def register():
     return render_template("register.html", form=form)
 
 
-# GET /login
-
 @app.route('/login', methods=['GET', 'POST'])
 def login_user():
     """
@@ -83,3 +81,11 @@ def show_secret():
         return redirect('/login')
     else:
         return "YOU MADE IT!"
+
+
+@app.route('/logout')
+def logout():
+    """Clear any information from the session and redirect """
+    session.clear()
+    # session.pop('username')
+    return redirect('/')
