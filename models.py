@@ -46,3 +46,14 @@ class User(db.Model):
             return u
         else:
             return False
+
+
+class Feedback(db.Model):
+    """ The feedback model in the database. """
+
+    __tablename__ = "feedback"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(100), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    username = db.Column(db.String(20), db.ForeignKey('users.username'))
