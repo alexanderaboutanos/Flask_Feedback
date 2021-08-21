@@ -67,20 +67,21 @@ def login_user():
         if user:
             flash(f"Welcome Back, {user.first_name}!", "primary")
             session['username'] = user.username
-            return redirect('/secret')
+            return redirect(f'/users/{user.username}')
         else:
             form.username.errors = ['Invalid username/password.']
 
     return render_template('login.html', form=form)
 
 
-@app.route('/secret')
-def show_secret():
-    """Return the text “You made it!”"""
+@app.route('/users/<username>')
+def show_secret(username):
+    """Return the user info"""
     if 'username' not in session:
         return redirect('/login')
     else:
-        return "YOU MADE IT!"
+        user = User.query.get_or_404(username)
+        return render_template('user.html', user=user)
 
 
 @app.route('/logout')
