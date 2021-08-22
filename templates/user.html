@@ -15,6 +15,39 @@
       <li>Email : {{user.email}}</li>
     </ul>
   </div>
+  <div>
+    <h3>Feedback</h3>
+    <ul>
+      {% if user.feedback %} {% for feedback in user.feedback %}
+      <li>
+        <div>
+          {{feedback.title}}: {{feedback.content}}
+          <form action="/feedback/{{feedback.id}}/update" method="GET">
+            <button>EDIT</button>
+          </form>
+          <form action="/feedback/{{feedback.id}}/delete" method="POST">
+            <button>DELETE</button>
+          </form>
+        </div>
+      </li>
+      {% endfor %} {% endif %}
+    </ul>
+  </div>
+  <div>
+    <h3>Other Links</h3>
+    <ul>
+      <li>
+        <form action="/users/{{user.username}}/feedback/add" method="GET">
+          <button>Add Feedback!</button>
+        </form>
+      </li>
+      <li>
+        <form action="/users/{{user.username}}/delete" method="POST">
+          <button>Delete User</button>
+        </form>
+      </li>
+    </ul>
+  </div>
 </div>
 
 {% endblock %}
